@@ -1,0 +1,79 @@
+═══════════════════════════════════════════════════════
+VÉRIFICATION COMPLÈTE - TEST 2 (2026-01-16)
+═══════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════
+ASSIGNATION #1 : Résa 5 + 6
+═══════════════════════════════════════════════════════
+Groupement TA : 08:30 + 08:40 (dans les 30 min) ✅
+Passagers     : 2 + 4 = 6 passagers
+Hôtels        : Carlton (2) + Radisson Blu (3)
+Véhicule      : V-003 (6 places, Essence)
+Heure départ  : 08:40 (la plus tardive)
+
+TRAJET (optimisé par proximité) :
+  Aéroport (1)   → Radisson (3)  : 14 km
+  Radisson (3)   → Carlton (2)   : 7 km
+  Carlton (2)    → Aéroport (1)  : 18.5 km
+  TOTAL                          : 39.5 km
+
+CALCUL :
+  Temps trajet = 39.5 ÷ 20 × 60 = 118.5 minutes ≈ 118 min = 1h58
+  Heure retour = 08:40 + 1h58 = 10:38
+
+RÉSULTAT OBTENU : 10:38 ✅ CORRECT
+
+═══════════════════════════════════════════════════════
+ASSIGNATION #2 : Résa 7 + 8 + 9
+═══════════════════════════════════════════════════════
+Groupement TA : 08:45 + 08:45 + 08:50 (dans les 30 min) ✅
+Passagers     : 3 + 2 + 2 = 7 passagers
+Hôtels        : Colbert (4) + Carlton (2) + Colbert (4)
+                → Uniques: Carlton (2) + Colbert (4)
+Véhicule      : V-004 (7 places, Gasoil)
+Heure départ  : 08:50 (la plus tardive)
+
+TRAJET (optimisé par proximité) :
+  Aéroport (1)   → Carlton (2)   : 18.5 km
+  Carlton (2)    → Colbert (4)   : 4 km
+  Colbert (4)    → Aéroport (1)  : 19 km
+  TOTAL                          : 41.5 km
+
+CALCUL :
+  Temps trajet = 41.5 ÷ 20 × 60 = 124.5 minutes ≈ 124 min = 2h04
+  Heure retour = 08:50 + 2h04 = 10:54
+
+RÉSULTAT OBTENU : 10:54 ✅ CORRECT
+
+═══════════════════════════════════════════════════════
+ASSIGNATION #3 : Résa 10 + 11
+═══════════════════════════════════════════════════════
+Groupement TA : 09:10 + 09:20 (dans les 30 min) ✅
+Passagers     : 2 + 2 = 4 passagers
+Hôtels        : Radisson Blu (3) + Colbert (4)
+Véhicule      : V-002 (4 places, Gasoil)
+Heure départ  : 09:20 (la plus tardive)
+
+TRAJET (optimisé par proximité) :
+  Aéroport (1)   → Radisson (3)  : 14 km
+  Radisson (3)   → Colbert (4)   : 6 km
+  Colbert (4)    → Aéroport (1)  : 19 km
+  TOTAL                          : 39 km
+
+CALCUL :
+  Temps trajet = 39 ÷ 20 × 60 = 117 minutes = 1h57
+  Heure retour = 09:20 + 1h57 = 11:17
+
+RÉSULTAT OBTENU : 11:17 ✅ CORRECT
+
+═══════════════════════════════════════════════════════
+SYNTHÈSE TEST 2
+═══════════════════════════════════════════════════════
+✅ 3 assignations créées (optimisation réussie)
+✅ Groupement dans TA de 30 min fonctionne
+✅ Toutes les heures de départ correctes (plus tardive)
+✅ Itinéraires optimisés (hôtel le plus proche d'abord)
+✅ Tous les calculs de distance corrects
+✅ Toutes les heures de retour correctes
+✅ Sélection véhicules optimale
+✅ Extraction des hôtels uniques fonctionne

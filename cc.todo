@@ -1,0 +1,211 @@
+Technologie utiliser :
+    -JPA + SPRING (ET NON SPRING BOOT)
+    -BDD : postgres
+    -Compiler avec maven
+
+En resumer: Nous sommes un tour operateur de voyage, notre but assigner une reservation a une vehicule =>assignation
+Base :
+DATABASE db_reservation_hotel;
+
+CREATE TABLE t_hotel(
+    id_hotel SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+);
+
+CREATE TABLE t_reservation(
+    id_reservation SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
+    nb_passager INTEGER NOT NULL,
+    dateheure_arrivee TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_hotel INTEGER NOT NULL REFERENCES t_hotel(id_hotel)
+);
+
+CREATE TABLE t_vehicule(
+    id_vehicule SERIAL PRIMARY KEY,
+    numero VARCHAR(50) NOT NULL,
+    nb_place INTEGER NOT NULL //on ne prend pas en compte le chauffeur
+    carburant INTEGER; -- 1 = essence, 2 = gasoil
+);
+
+CREATE TABLE t_distance(
+    id_distance SERIAL PRIMARY KEY,
+    distance_from INTEGER NOT NULL REFERENCES t_hotel(id_hotel),
+    distance_to INTEGER NOT NULL REFERENCES t_hotel(id_hotel),
+    distance NUMERIC(5,2) NOT NULL
+);
+
+CREATE TABLE t_parametre(
+    id_parametre SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    valeur NUMERIC(10,2) NOT NULL
+);
+
+
+
+--temps_attente : 30 min
+--add carburant : essence / gasoil
+
+
+-- table t_assignation
+--     id_assignation
+--     id_reservation
+--     heure_depart
+--     heure_retour
+
+
+t_vehicule_voyage
+-id_vehicule
+-id_assignation
+
+
+Cote model : la plus part comme la base (just au lieu de id, on a l'objet), ormis :
+    Vehicule.java : ajout attribut List<Assignation>
+    Assignation.java : List<Reservation>, List<Hotel>
+    Reservation.java : ajout attribut boolean assigner (false de base)
+
+SPRINTE 1 : Pour un jour donner, on assigne  les reservations pour une date donner: ReservationService.java : List<Assignation> assigner(Date) //sans front, on va faire les testes dans le terminal
+    Comment se faire ?
+    0-GetReservationForDay(Date) //on les prend et les trie par ordre croissant par rapport heure_arriver a l'aeroport
+    ---Boucle des reservations
+    1-GetListeVoituresDisponibles(DateHeure)
+        =>List<Vehicule> qui n'ont pas encore quitter l'aeroport + List<Vehicule> qui sont deja retourner a l'aeroport a la dateHeure Donner
+    2-List<Reservation> getReservationsInTempsAttente(Reservation)//on va noter ReservationTA la variable qui a le retour
+        -on prend les reservations qui se trouve jusqu'a plus de 30min de celle initiale : comme cette fonction par exemple
+        public List<Reservation> grouperTA(Reservation reservation, List<Reservation> reservations){
+            List<Reservation> retour = new ArrayList<>();
+            retour.add(reservation);
+            LocalDateTime tempsLimite = reservation.getDateHeureArrived().plusMinutes(30);
+            for (Reservation r : reservations) {
+                if (r.getIdReservation() != reservation.getIdReservation() && r.getAssigned() == false) {
+                    if (tempsLimite.isAfter(r.getDateHeureArrived())) {
+                        retour.add(r);
+                    }else{
+                        return retour;
+                    }
+                }
+            }
+            return retour;
+        }
+    3-int calculNombrePassagerTotal(ReservationTA)
+    4-getVehiculeApproprier(nbPassagerTotal)
+        Voici une regle de gestion pour choisir le vehicule
+            public static List<Vehicule> filtrerParPlace(List<Vehicule> vehicules, int nbPlaceTotal){
+                List<Vehicule> retour = new ArrayList<>();
+                for (Vehicule vehicule : vehicules) {
+                    if (vehicule.getNbPlace() >= nbPlaceTotal) {
+                        retour.add(vehicule);
+                    }
+                }
+                return retour;
+            }
+            public static List<Vehicule> trierParPlace(List<Vehicule> vehicules) {
+                    List<Vehicule> resultat = new ArrayList<>(vehicules);
+                    for (int i = 0; i < resultat.size() - 1; i++) {
+                        for (int j = i + 1; j < resultat.size(); j++) {
+                
+                            if (resultat.get(i).getNbPlace() > resultat.get(j).getNbPlace()) {
+                                Vehicule tmp = resultat.get(i);
+                                resultat.set(i, resultat.get(j));
+                                resultat.set(j, tmp);
+                            }
+                        }
+                    }
+                    return resultat;
+                }
+            public static List<Vehicule> filtreByNbreTrajet(List<Vehicule> vehicules, LocalDate date) {          
+                List<Vehicule> resultat = new ArrayList<>();
+                int minTrajet = Integer.MAX_VALUE;
+                for (Vehicule v : vehicules) {
+                    int compteur = 0;
+                    for (Assignation a : v.getAssignations()) {
+                        if (a.getHeureDepart() != null &&
+                            a.getHeureDepart().toLocalDate().equals(date)) {
+                            compteur++;
+                        }
+                    }
+                    if (compteur < minTrajet) {
+                        minTrajet = compteur;
+                        resultat.clear();
+                        resultat.add(v);
+                    } else if (compteur == minTrajet) {
+                        resultat.add(v);
+                    }
+                }
+                return resultat;
+            }
+            public static List<Vehicule> filtreByCarburant(List<Vehicule> vehicules) {
+                List<Vehicule> resultat = new ArrayList<>();
+
+                for (Vehicule v : vehicules) {
+                    if (v.getCarburant() != null && v.getCarburant() == 1) {
+                        resultat.add(v);
+                    }
+                }
+                return resultat.isEmpty() ? vehicules : resultat;
+            }
+            public static List<Vehicule> filtreByMinPlace(List<Vehicule> vehicules) {
+                List<Vehicule> resultat = new ArrayList<>();
+                int minPlace = Integer.MAX_VALUE;
+
+                for (Vehicule v : vehicules) {
+
+                    if (v.getNbPlace() < minPlace) {
+                        minPlace = v.getNbPlace();
+                        resultat.clear();
+                        resultat.add(v);
+                    } else if (v.getNbPlace() == minPlace) {
+                        resultat.add(v);
+                    }
+                }
+                return resultat;
+            }
+            public static Vehicule getVehiculeFinal(List<Vehicule> vehicules, LocalDate date, int nbPlaceTotal) {
+                List<Vehicule> retour;
+                retour = trierParPlace(filtrerParPlace(vehicules, nbPlaceTotal));
+                if (retour.size() < 1) {
+                    return null;
+                }
+                if (retour.size() > 1) {
+                    retour = filtreByNbreTrajet(retour, date);
+                }
+                if (retour.size() > 1) {
+                    retour = filtreByCarburant(retour);
+                }
+                if (retour.size() > 1) {
+                    retour = filtreByMinPlace(retour);
+                }
+                    
+                if (retour.size() > 1) {
+                    List<Vehicule> hasard = new ArrayList<>();
+                    int index = new Random().nextInt(retour.size());
+                    hasard.add(retour.get(index));
+                    return hasard.get(0);
+                }
+                return retour.get(0);
+            }
+    5-a-Si trouve une Vehicule (vehicule not null)
+        =>on assigner les reservationsTa dans la meme assignation
+            =>reservation.assigner = true;
+            =>Assignation assignationCreer = new Assignation(ReservationTA)
+                -l'heure de depart est l'heure le plus tard parmis les reservationsTa
+                -on trie les hotels dans l'ordre croissant,
+                    1-on prend celui qui est le plus proche de l'aeroport
+                    2-en suite, l'hotel le plus proche de celle d'avant et ainsi de suite 
+                    evidemment si l'hotel d'une reservation dans reservationsTa et deja dans hotel, on ne l'entre plus
+                -apres le trie, on calcul l'heure de retour du vehicule a l'aeroport 
+                    (dans t_distance on aura la distance entre hotel, aeroport)
+            =>vehicule.addAssignation(assignationCreer)
+            =>retour.add(assignationCrer)
+    5-b Si on ne trouve pas de voitures
+        *si getVehiculeApproprier(nbPassagerTotal) ==null
+            -on enleve une reservation dans reservationsTa jusqu'a ce qu'on trouve une vehicule
+            -si meme si reservationsTa.size == 1 et qu'on a pas de voiture:
+                -on trouve/ prends les voitures dans les 30min(qui est le TA, a ne pas mettre directement dans le code) a venir
+                -s'il y en a, c'est bien
+                -si non la reservation reste non assigner et on passe a la suivante
+
+        * si 1-GetListeVoituresDisponibles(DateHeure) == null
+            -on trouve/ prends les voitures dans les 30min(qui est le TA, a ne pas mettre directement dans le code) a venir
+                -s'il y en a, c'est bien
+                -si non la reservation reste non assigner et on passe a la suivante

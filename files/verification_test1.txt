@@ -1,0 +1,89 @@
+═══════════════════════════════════════════════════════
+VÉRIFICATION COMPLÈTE - TEST 1 (2026-01-15)
+═══════════════════════════════════════════════════════
+
+PARAMÈTRES :
+- Vitesse : 20 km/h
+- Temps d'arrêt : 0 min (commenté)
+- Formule : Temps (min) = Distance (km) ÷ 20 × 60
+
+═══════════════════════════════════════════════════════
+ASSIGNATION #1 : Résa 1
+═══════════════════════════════════════════════════════
+Passagers    : 4
+Hôtel        : Carlton (id=2)
+Véhicule     : V-002 (4 places, Gasoil)
+Heure départ : 08:30
+
+TRAJET :
+  Aéroport (1) → Carlton (2)    : 18.5 km
+  Carlton (2)  → Aéroport (1)   : 18.5 km
+  TOTAL                         : 37 km
+
+CALCUL :
+  Temps trajet = 37 ÷ 20 × 60 = 111 minutes = 1h51
+  Heure retour = 08:30 + 1h51 = 10:21
+
+RÉSULTAT OBTENU : 10:21 CORRECT
+
+═══════════════════════════════════════════════════════
+ASSIGNATION #2 : Résa 2
+═══════════════════════════════════════════════════════
+Passagers    : 4
+Hôtel        : Radisson Blu (id=3)
+Véhicule     : V-001 (4 places, Essence)
+Heure départ : 10:30
+
+TRAJET :
+  Aéroport (1)    → Radisson (3)  : 14 km
+  Radisson (3)    → Aéroport (1)  : 14 km
+  TOTAL                           : 28 km
+
+CALCUL :
+  Temps trajet = 28 ÷ 20 × 60 = 84 minutes = 1h24
+  Heure retour = 10:30 + 1h24 = 11:54
+
+RÉSULTAT OBTENU : 11:54 CORRECT
+
+═══════════════════════════════════════════════════════
+ASSIGNATION #3 : Résa 3
+═══════════════════════════════════════════════════════
+Passagers    : 5
+Hôtel        : Radisson Blu (id=3)
+Véhicule     : V-003 (6 places, Essence)
+Heure départ : 11:10
+
+TRAJET :
+  Aéroport (1)    → Radisson (3)  : 14 km
+  Radisson (3)    → Aéroport (1)  : 14 km
+  TOTAL                           : 28 km
+
+CALCUL :
+  Temps trajet = 28 ÷ 20 × 60 = 84 minutes = 1h24
+  Heure retour = 11:10 + 1h24 = 12:34
+
+RÉSULTAT OBTENU : 12:34 CORRECT
+
+═══════════════════════════════════════════════════════
+ASSIGNATION #4 : Résa 4
+═══════════════════════════════════════════════════════
+Passagers    : 5
+Hôtel        : Colbert (id=4)
+Véhicule     : V-004 (7 places, Gasoil)
+Heure départ : 11:45
+
+TRAJET :
+  Aéroport (1) → Colbert (4)    : 19 km
+  Colbert (4)  → Aéroport (1)   : 19 km
+  TOTAL                         : 38 km
+
+CALCUL :
+  Temps trajet = 38 ÷ 20 × 60 = 114 minutes = 1h54
+  Heure retour = 11:45 + 1h54 = 13:39
+
+RÉSULTAT OBTENU : 13:39 CORRECT
+
+═══════════════════════════════════════════════════════
+SYNTHÈSE TEST 1
+═══════════════════════════════════════════════════════ 
+4 assignations créées Toutes les heures de départ correctes Tous les calculs de distance corrects Toutes les heures de retour correctes Sélection véhicules optimale
