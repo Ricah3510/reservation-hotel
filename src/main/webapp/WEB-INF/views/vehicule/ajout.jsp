@@ -1,5 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ page import="java.util.List" %>
+<%@ page import="com.touroperator.model.Carburant" %>
+<%
+    List<Carburant> carburants = (List<Carburant>) request.getAttribute("carburants");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,8 +35,13 @@
             <label>Carburant</label>
             <select name="carburant" required>
                 <option value="">-- Choisir --</option>
-                <option value="1">Essence</option>
-                <option value="2">Gasoil</option>
+                <%
+                    for(Carburant c : carburants){
+                        %>
+                        <option value="<%=c.getIdCarburant()%>"><%=c.getCarburant()%></option>
+                        <%
+                    }
+                %>
             </select>
         </div>
 

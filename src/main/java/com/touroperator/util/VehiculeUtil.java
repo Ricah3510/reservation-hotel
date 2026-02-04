@@ -67,7 +67,7 @@ public class VehiculeUtil {
         List<Vehicule> resultat = new ArrayList<>();
         
         for (Vehicule v : vehicules) {
-            if (v.getCarburant() != null && v.getCarburant() == 2) {
+            if (v.getCarburant() != null && v.getCarburant().getIdCarburant() == 2) {
                 resultat.add(v);
             }
         }

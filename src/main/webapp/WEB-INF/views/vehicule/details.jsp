@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.touroperator.model.Vehicule" %>
+<%@ page import="com.touroperator.model.Carburant" %>
 
 <%
     Vehicule vehicule = (Vehicule) request.getAttribute("vehicule");
@@ -38,11 +39,7 @@
 
         <div class="detail-row">
             <span class="label">Carburant :</span>
-            <% if (vehicule.getCarburant() == 1) { %>
-                <span class="badge essence">Essence</span>
-            <% } else { %>
-                <span class="badge gasoil">Gasoil</span>
-            <% } %>
+            <%= vehicule.getCarburant().getCarburant() %>
         </div>
 
     <% } else { %>

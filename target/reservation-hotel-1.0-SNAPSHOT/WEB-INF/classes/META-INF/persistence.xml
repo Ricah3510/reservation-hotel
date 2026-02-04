@@ -15,6 +15,7 @@
         <class>com.touroperator.model.Distance</class>
         <class>com.touroperator.model.Parametre</class>
         <class>com.touroperator.model.Assignation</class>
+        <class>com.touroperator.model.Carburant</class>
         
         <properties>
             <!-- PostgreSQL Connection -->

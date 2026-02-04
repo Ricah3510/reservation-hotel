@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.touroperator.model.Vehicule" %>
+<%@ page import="com.touroperator.model.Carburant" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,11 +52,7 @@
                             <%= vehicule.getNbPlace() %> places
                         </td>
                         <td>
-                            <% if (vehicule.getCarburant() == 1) { %>
-                                <span class="badge badge-essence">Essence</span>
-                            <% } else { %>
-                                <span class="badge badge-gasoil">Gasoil</span>
-                            <% } %>
+                            <%= vehicule.getCarburant().getCarburant() %>
                         </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/vehicule/details/<%= vehicule.getIdVehicule() %>">

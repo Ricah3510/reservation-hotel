@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.touroperator.model.Carburant;
 import com.touroperator.model.Vehicule;
+import com.touroperator.service.CarburantService;
 import com.touroperator.service.VehiculeService;
 
 @Controller
@@ -19,6 +21,9 @@ public class VehiculeController {
     
     @Autowired
     private VehiculeService vehiculeService;
+
+    @Autowired
+    private CarburantService carburantService;
     
     @GetMapping("/liste")
     public ModelAndView liste() {
@@ -48,8 +53,10 @@ public class VehiculeController {
     }
 
     @GetMapping("/ajout")
-    public String ajoutForm() {
-        return "vehicule/ajout";
+    public ModelAndView ajoutForm() {
+        ModelAndView mav = new ModelAndView("vehicule/ajout");
+        mav.addObject("carburants", carburantService.getAllCarburants());
+        return mav;
     }
 
     @PostMapping("/ajouter")
@@ -57,7 +64,7 @@ public class VehiculeController {
         Vehicule v = new Vehicule();
         v.setNumero(numero);
         v.setNbPlace(nbPlace);
-        v.setCarburant(carburant);
+        v.setCarburant(carburantService.getCarburantById(carburant));
 
         vehiculeService.saveVehicule(v);
 

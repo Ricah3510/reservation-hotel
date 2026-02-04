@@ -26,12 +26,17 @@ CREATE TABLE t_reservation(
     id_hotel INTEGER NOT NULL REFERENCES t_hotel(id_hotel)
 );
 
+CREATE TABLE t_carburant(
+    id_carburant SERIAL PRIMARY KEY,
+    carburant VARCHAR(20)
+);
+
 -- Table t_vehicule
 CREATE TABLE t_vehicule(
     id_vehicule SERIAL PRIMARY KEY,
     numero VARCHAR(50) NOT NULL,
     nb_place INTEGER NOT NULL,
-    carburant INTEGER
+    carburant INTEGER NOT NULL REFERENCES t_carburant(id_carburant)
 );
 
 -- Table t_distance
@@ -75,6 +80,10 @@ CREATE TABLE t_assignation_hotel(
 -- ======================================
 -- INSERTION DES DONNeES DE ReFeRENCE
 -- ======================================
+
+INSERT INTO t_carburant(carburant) VALUES 
+('essence'),
+('gasoil');
 
 -- Paramètres
 INSERT INTO t_parametre(nom, valeur) VALUES 

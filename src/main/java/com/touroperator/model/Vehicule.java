@@ -20,25 +20,37 @@ public class Vehicule implements Serializable {
     @Column(name = "nb_place", nullable = false)
     private Integer nbPlace;
     
-    @Column(name = "carburant")
-    private Integer carburant; // 1 = essence, 2 = gasoil
+    // @Column(name = "carburant")
+    // private Integer carburant; // 1 = essence, 2 = gasoil
     
     @OneToMany(mappedBy = "vehicule")
     private List<Assignation> assignations = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "carburant", referencedColumnName = "id_carburant", nullable = false)
+    private Carburant carburant;
+
     
     public Vehicule() {
     }
     
-    public Vehicule(String numero, Integer nbPlace, Integer carburant) {
-        this.numero = numero;
-        this.nbPlace = nbPlace;
-        this.carburant = carburant;
-    }
+    // public Vehicule(String numero, Integer nbPlace, Integer carburant) {
+    //     this.numero = numero;
+    //     this.nbPlace = nbPlace;
+    //     this.carburant = carburant;
+    // }
+    
     
     public Integer getIdVehicule() {
         return idVehicule;
     }
     
+    public Vehicule(String numero, Integer nbPlace, Carburant carburant) {
+        this.numero = numero;
+        this.nbPlace = nbPlace;
+        this.carburant = carburant;
+    }
+
     public void setIdVehicule(Integer idVehicule) {
         this.idVehicule = idVehicule;
     }
@@ -59,13 +71,13 @@ public class Vehicule implements Serializable {
         this.nbPlace = nbPlace;
     }
     
-    public Integer getCarburant() {
-        return carburant;
-    }
+    // public Integer getCarburant() {
+    //     return carburant;
+    // }
     
-    public void setCarburant(Integer carburant) {
-        this.carburant = carburant;
-    }
+    // public void setCarburant(Integer carburant) {
+    //     this.carburant = carburant;
+    // }
     
     public List<Assignation> getAssignations() {
         return assignations;
@@ -88,5 +100,13 @@ public class Vehicule implements Serializable {
                 ", nbPlace=" + nbPlace +
                 ", carburant=" + carburant +
                 '}';
+    }
+
+    public Carburant getCarburant() {
+        return carburant;
+    }
+
+    public void setCarburant(Carburant carburant) {
+        this.carburant = carburant;
     }
 }

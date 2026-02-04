@@ -54,7 +54,7 @@ public class Main {
             System.out.println("│ ASSIGNATION #" + (i + 1) + "│");
             System.out.println("  Véhicule       : " + a.getVehicule().getNumero() +
                             " (" + a.getVehicule().getNbPlace() + " places, " +
-                            (a.getVehicule().getCarburant() == 1 ? "Essence" : "Gasoil") + ")");
+                            (a.getVehicule().getCarburant().getCarburant()));
             System.out.println("  Heure départ   : " + a.getHeureDepart());
             System.out.println("  Heure retour   : " + a.getHeureRetour());
             System.out.println("  Nb réservations: " + a.getReservations().size());
