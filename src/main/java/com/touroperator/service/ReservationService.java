@@ -3,6 +3,7 @@ package com.touroperator.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,50 @@ public class ReservationService {
     
     @Autowired
     private AssignationService assignationService;
+    
+    /**
+     * Créer une nouvelle réservation
+     */
+    public Reservation createReservation(String nom, String prenom, Integer nbPassager, 
+                                         String dateHeureArrivee, Integer idHotel) {
+        
+        // Créer la réservation
+        Reservation reservation = new Reservation();
+        reservation.setNom(nom);
+        reservation.setPrenom(prenom);
+        reservation.setNbPassager(nbPassager);
+        
+        // Parser la date
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse(dateHeureArrivee, formatter);
+        reservation.setDateHeureArrivee(dateTime);
+        
+        // Récupérer l'hôtel
+        Hotel hotel = hotelRepository.findById(idHotel);
+        reservation.setHotel(hotel);
+        
+        // Assigner = false par défaut
+        reservation.setAssigner(false);
+        
+        // Sauvegarder
+        return reservationRepository.save(reservation);
+    }
+    
+    /**
+     * Compter les réservations assignées
+     */
+    public long countAssignedReservations() {
+        List<Reservation> all = reservationRepository.findAll();
+        return all.stream().filter(Reservation::getAssigner).count();
+    }
+    
+    /**
+     * Compter les réservations en attente
+     */
+    public long countPendingReservations() {
+        List<Reservation> all = reservationRepository.findAll();
+        return all.stream().filter(r -> !r.getAssigner()).count();
+    }
     
     public List<Assignation> assigner(LocalDate date) {
         List<Assignation> assignations = new ArrayList<>();

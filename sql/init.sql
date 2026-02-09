@@ -81,24 +81,24 @@ CREATE TABLE t_assignation_hotel(
 -- INSERTION DES DONNeES DE ReFeRENCE
 -- ======================================
 
-INSERT INTO t_carburant(carburant) VALUES 
+INSERT INTO t_carburant(carburant) VALUES
 ('essence'),
 ('gasoil');
 
 -- Paramètres
-INSERT INTO t_parametre(nom, valeur) VALUES 
+INSERT INTO t_parametre(nom, valeur) VALUES
 ('vitesse', 20),
 ('temps_attente', 30);
 
 -- Hôtels
-INSERT INTO t_hotel(nom) VALUES 
+INSERT INTO t_hotel(nom) VALUES
 ('TNR (Aeroport)'),  -- id = 1
 ('Carlton'),         -- id = 2
 ('Radisson Blu'),    -- id = 3
 ('Colbert');         -- id = 4
 
 -- Vehicules
-INSERT INTO t_vehicule(numero, nb_place, carburant) VALUES 
+INSERT INTO t_vehicule(numero, nb_place, carburant) VALUES
 ('V-001', 4, 1),   -- id = 1, essence
 ('V-002', 4, 2),   -- id = 2, gasoil
 ('V-003', 6, 1),   -- id = 3, essence
@@ -106,28 +106,28 @@ INSERT INTO t_vehicule(numero, nb_place, carburant) VALUES
 
 -- Distances (matrice de distances entre hôtels)
 -- From TNR (Aeroport) - id=1
-INSERT INTO t_distance(distance_from, distance_to, distance) VALUES 
+INSERT INTO t_distance(distance_from, distance_to, distance) VALUES
 (1, 1, 0),      -- TNR -> TNR
 (1, 2, 18.5),   -- TNR -> Carlton
 (1, 3, 14),     -- TNR -> Radisson Blu
 (1, 4, 19);     -- TNR -> Colbert
 
 -- From Carlton - id=2
-INSERT INTO t_distance(distance_from, distance_to, distance) VALUES 
+INSERT INTO t_distance(distance_from, distance_to, distance) VALUES
 (2, 1, 18.5),   -- Carlton -> TNR
 (2, 2, 0),      -- Carlton -> Carlton
 (2, 3, 7),      -- Carlton -> Radisson Blu
 (2, 4, 4);      -- Carlton -> Colbert
 
 -- From Radisson Blu - id=3
-INSERT INTO t_distance(distance_from, distance_to, distance) VALUES 
+INSERT INTO t_distance(distance_from, distance_to, distance) VALUES
 (3, 1, 14),     -- Radisson Blu -> TNR
 (3, 2, 7),      -- Radisson Blu -> Carlton
 (3, 3, 0),      -- Radisson Blu -> Radisson Blu
 (3, 4, 6);      -- Radisson Blu -> Colbert
 
 -- From Colbert - id=4
-INSERT INTO t_distance(distance_from, distance_to, distance) VALUES 
+INSERT INTO t_distance(distance_from, distance_to, distance) VALUES
 (4, 1, 19),     -- Colbert -> TNR
 (4, 2, 4),      -- Colbert -> Carlton
 (4, 3, 6),      -- Colbert -> Radisson Blu

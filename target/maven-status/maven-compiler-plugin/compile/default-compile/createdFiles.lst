@@ -16,6 +16,7 @@ com\touroperator\util\DistanceUtil.class
 com\touroperator\Main.class
 com\touroperator\controller\VehiculeController.class
 com\touroperator\repository\ReservationRepository.class
+com\touroperator\controller\ReservationController.class
 com\touroperator\repository\HotelRepository.class
 com\touroperator\repository\DistanceRepository.class
 com\touroperator\repository\AssignationRepository.class

@@ -30,6 +30,7 @@
         </div>
         
         <a href="<c:url value='/vehicule/liste'/>" class="btn">Liste Vehicule</a>
+        <a href="<c:url value='/reservation/liste'/>" class="btn">Liste Reservation</a>
     </div>
 </body>
 </html>
